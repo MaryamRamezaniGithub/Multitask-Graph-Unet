@@ -44,7 +44,11 @@ where 𝜎 is the non-linear activation function and 𝜃 is the learning parame
 For testing the proposed system, a dataset of 500 of fetoscopic images with resolution 160 × 160 was created, we split the dataset into training and validation sets with a ratio of 0.2. The network was trained with a learning rate of 0.0001, batch size of 4, PRelu activation function, and number of epochs of 20. For the segmentation task binary cross-entropy (BCE) with logits loss function was used meanwhile root-mean-square error (RMSE) was used for the regression task. The total loss function was a simple addition of both of these functions and the Adam optimizer was used for training. The comparison of the proposed MGUnet with the results of previous state-of-the-art models [7], [8] demonstrates the superiority of our model. Regarding the number of trainable parameters, the MGUnet using less than 8 million parameters makes better
 performance than most of the baseline models.
 
-![5](https://github.com/user-attachments/assets/d81db3e4-c720-4ccd-aca7-a45859d60969)
+![5](https://github.com/user-attachments/assets/1f06bece-17cc-4cf8-8004-22404916b210)
+
+![6](https://github.com/user-attachments/assets/9d1775b0-fdb2-4160-9290-79020f3f2c8e)
+
+![7](https://github.com/user-attachments/assets/8f5534f2-3e89-4a3e-85e2-062cff3a00f2)
 
 ## Conclusion
 
