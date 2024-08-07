@@ -29,29 +29,9 @@ The intuition for construction the edges of the graph, is to learn a graph struc
 between node vector features.
 ![2](https://github.com/user-attachments/assets/407b46d3-e526-4f7c-81e2-dc4e59352eae)
 
-In this way, a graph representation 𝐺(𝑉, 𝜀) is constructed where 𝜀 is set of all edges. Then for input feature 𝑋, the aggregation operation calculates the representation of a node by aggregating features of neighboring nodes. If **𝐴**= 𝐴 + 𝐼 is the matrix of all nodes’connections which normally called an adjacency matrix, and 𝐼 is identity matrix to add self loops, ˆ
-𝐷
-is node degree matrix where
-ˆ𝐷
-𝑖 =
-Í
-𝑗 ˆ
-𝐴
-𝑖 𝑗 , we can use the normalized graph Laplacian
-matrix ˆ
-𝐷
-−0.5 ˆ
-𝐴
-ˆ𝐷
-0.5 to approximate the graph convolution
-using Fourier transform properties. GCN follows the node
-representation update as:
-𝑋′ = 𝜎( ˆ
-𝐷
-−0.5 ˆ
-𝐴
-ˆ𝐷
-0.5 𝑋 𝜃)
-where 𝜎 is the non-linear activation function and 𝜃 is the
-learning parameters or the weights.
+In this way, a graph representation 𝐺(𝑉, 𝜀) is constructed where 𝜀 is set of all edges. Then for input feature 𝑋, the aggregation operation calculates the representation of a node by aggregating features of neighboring nodes. If 𝐴^= 𝐴 + 𝐼 is the matrix of all nodes’connections which normally called an adjacency matrix, and 𝐼 is identity matrix to add self loops, D is node degree matrix, we can use the normalized graph Laplacian matrix 
+![3](https://github.com/user-attachments/assets/53025ac5-1ee0-4fad-b62a-6cba70404dfc)
+to approximate the graph convolution using Fourier transform properties. GCN follows the node representation update as:
+![4](https://github.com/user-attachments/assets/aae62662-e328-45cd-880a-bfe43f7678c0)
+where 𝜎 is the non-linear activation function and 𝜃 is the learning parameters or the weights.
 
