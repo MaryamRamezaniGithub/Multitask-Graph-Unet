@@ -39,3 +39,59 @@ to approximate the graph convolution using Fourier transform properties. GCN fol
 
 where 𝜎 is the non-linear activation function and 𝜃 is the learning parameters or the weights.
 
+## Expriments
+
+For testing the proposed system, a dataset of 500 of fetoscopic images with resolution 160 × 160 was created, we split the dataset into training and validation sets with a ratio of 0.2. The network was trained with a learning rate of 0.0001, batch size of 4, PRelu activation function, and number of epochs of 20. For the segmentation task binary cross-entropy (BCE) with logits loss function was used meanwhile root-mean-square error (RMSE) was used for the regression task. The total loss function was a simple addition of both of these functions and the Adam optimizer was used for training. The comparison of the proposed MGUnet with the results of previous state-of-the-art models [7], [8] demonstrates the superiority of our model. Regarding the number of trainable parameters, the MGUnet using less than 8 million parameters makes better
+performance than most of the baseline models.
+
+![5](https://github.com/user-attachments/assets/d81db3e4-c720-4ccd-aca7-a45859d60969)
+
+## Conclusion
+
+In this project, I tried to represent a novel image based localization and segmentation system using graph neural networks considering longdistance pixel features. The results show that our method is
+effective.
+
+## References
+
+ S. M. Gori, G. Monfardini, “A new model for learning in graph
+domains,” 2005 IEEE international joint conference on neural
+networks, vol. 2, no.4m 729–734, 2005.
+
+ A. Elmoogy, X. Dong and K. Reddy, “Pose-gnn
+: Camera pose estimation system using graph neural networks,”
+Computer vision and image understanding, vol. 2, 2021.
+
+ E. Peterson, “K-nearest neighbor,” Scholarpedia, vol. 4, no.2,
+2009.
+
+Y. Lu, Y. Chen and J. Chen, “Graph-fcn for image semantic
+segmentation,” Advances in Neural Networks-ISNN, vol. 2, 2019.
+
+K. Han, Y. Wang, “Vision gnn: An image is
+worth graph of nodes,” Computer Vision and Pattern Recognition,
+vol. 3, 2022.
+
+J. Jiang, X. Chen and Y. Liu, “vig-unet: vision graph
+neural networks for medical image segmentation,” IEEE, DOI:
+10.1109/ISBI53787.2023.10230496, vol. 3, 2023.
+
+M.A. Ahmad, M. Ourak and E. Poorten, “Towards
+in-utero navigational assistance: A multi task neural
+network for segmentation and pose estimation in fetoscopy,”
+International Symposium on Medical Robotics (ISMR), DOI:
+10.1109/ISMR57123.2023.10130205, 2023.
+
+M.A. Ahmad, M. Ourak and E. Poorten, “Deep
+learning-based monocular placental pose estimation: towards collaborative
+robotics in fetoscopy 2020,” International Journal of
+Computer Assisted Radiology and Surgery, vol. 15,1561–1571,
+2020
+
+A. Vaswani, N. Shazeer and
+I. Polosukhin, “Attention is all you need,” Advances in Neural
+Information Processing Systems, vol. 30, 2017
+
+Y. Jiang, Q. Ding and X. Zhang, “Vision graph unet:
+Geometric learning enhanced encoder for medical image
+segmentation and restoration,” Inverse Problems and Imaging, vol.
+V. 18, 3,672-689, 2024
