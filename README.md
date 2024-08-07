@@ -1,50 +1,24 @@
-# Image-Segmentation
+# A Dynamic Graph Neural Network Architecture for Multi-tasking on Image data
+## INTRODUCTION
 
-This project implements a human segmentation model using PyTorch and the segmentation_models_pytorch library. The goal is to segment human figures from images, and the code is organized into several tasks.
+The Graph Convolution Networks (GCNs) are usually applied on graph data, such as social networks , citation networks and biochemical graphs. Using GCN for directly processes the image data has been started from 2018. There few GCN-based papers on image segmentation task. The advantages of graph representation of the image
+include:
+1) graph is a generalized data structure that grid (nodes lie on 2D lattices) and sequence can be viewed as a specialcase of graph;
+2) Convolution Neural Networks (CNNs) apply sliding window on the image and introduce the shift-invariance and ordered information;
+3) convolution filters only extract local features and neglect long-range self-similarity information, which is the vital information existing in image data.
 
-Setup and Dependencies
-Ensure you have the necessary dependencies installed before running the code. You can install them using the following:
+Since the graph neural network (GNN) [1] was first proposed, the techniques for processing graphs have been researched a lot. In this section, we review the development of graph neural network, especially GCN and
+its applications on visual tasks. In recent work, Ahmed Elmoogy et al., [2] used the graph neural network (GNN) for image pose estimation. They leverage the power of GNN to process the pretrained features as output of ResNet50 CNN architecture. For building connections (edges) between images in the form of binary adjacency matrix, they used 𝑘-nearest neighbors (KNN) algorithm [3] to search for the nearest 𝑘 neighbors of every node based on the 𝐿_2 distance.
 
-pip install torch opencv-python pandas matplotlib scikit-learn tqdm albumentations segmentation-models-pytorch
+However, for the first time according to my knowledge, Lu et al., [4] applied graph convolution network in image semantic segmentation to extract image features and the graph structure is constructed based on the 𝑘 nearest neighbour methods where the weight adjacent matrix is generated with the Gaussian kernel function. Moreover, Han et al. [5] proposed a Vision GNN (ViG), which splits the image into many blocks regarded as nodes and constructs a graph representation by connecting the nearest neighbors, then uses GNNs to process it for image recognition and object detection tasks. Motivated by the success of ViG model, in [6], authors proposed a ViGUNet to utilize the powerful functions of ViG for 2D medical image segmentation. Admittedly, this model needs a considerable computational resources ( nearly 0.7 billion parameters).
 
-Project Structure
-Setup and Configuration:
+In this project, I am going to  propose a dynamic multi task graph neural network (MG-Unet) for simultaneous image segsegmentation and pose estimation which is the first model to construct a multi-task graph structures. MG-Unet has a U-shaped architecture with the encoder, the decoder, skip connections and fully connected layers. It was noticed that the down-sampling part of the U-net is shared between the segmentation task and the regression task, and such a scheme may help the network learn better by feature sharing, reducing over-fitting, and also reducing the computational budget for inference. The proposed MG-Unet considers both local features extracted by CNN and long distance connections encoded by GCN. Additionally, for transforming image data into graph data, instead of using 𝑘-nearest neighbors algorithm, we used inner product to estimate the similarity between two nodes and construct the edges of the graph. The experimental results demonstrate that our proposed architecture outperforms related existing works like [7] and [8].
 
-Import required libraries and set up configurations such as file paths, device (CPU or CUDA), training epochs, learning rate, batch size, image size, encoder type, and pre-trained weights.
-Data Loading:
+I hope you enjoye.
+## MATERIALS AND METHODS
+In my project, I used 500 image frames from the fetoscopic camera as input to the network, and as the output of regression task, an estimation of the placenta orientation with respect to the camera is inferred. Details regarding how to formulate relative orientation of the placental surface is given on [7].
 
-Load the dataset from a CSV file containing image and mask file paths. Split the dataset into training and validation sets.
-Data Augmentation:
+MG-Unet is a U-shape model with symmetrical architecture, whose architecture can be seen in Figure 1. It consists of three paths of graph encoders and three paths of graph decoders (performing down-sampling from image domain to the graph domain and up-sampling from the graph back to the image domain, respectively) and three fully connected (FC) layers, with the softmax operation of the final layer removed for the regression task. So, in this way, the MGUnet has two output branches; one with the up-sampling branch of the MG-Unet, and one with three FC layers. Mostly similar to the structure of U-Net, the feature extractor employs CNNs of two 3 × 3 convolutions, each followed by a batch normalization layer and parametric rectified linear unit (PReLU) layer.We used a convolutional layer with stride 2 for downsampling operation and a bilinear for upsampling operation with the scale factor 2. In order to transform and exchange information among all the nodes, two layers of graph convolution are used.
 
-Define functions to get data augmentation pipelines for the training and validation datasets.
-Custom Dataset:
-
-Create a custom PyTorch dataset (SegmentationDataset) to load and preprocess images and masks.
-Dataset Exploration:
-
-Display sample images and masks to visually inspect the dataset.
-Data Loader:
-
-Load the dataset into PyTorch data loaders for training and validation.
-Segmentation Model:
-
-Define a custom segmentation model class (SegmentationModel) using the segmentation_models_pytorch library.
-Training Functions:
-
-Implement training and evaluation functions to train the segmentation model.
-Training Loop:
-
-Train the model over multiple epochs, saving the best model based on validation loss.
-Inference:
-
-Load the trained model and perform inference on a sample image from the validation set.
-Visualization:
-
-Display the original image, ground truth mask, and predicted mask for visual inspection.
-Instructions
-
-Notes
-Customize hyperparameters, model architecture, or training parameters based on your requirements.
-Adjust data augmentation techniques in the get_train_augs and get_valid_augs functions.
-Explore different encoders and pre-trained weights for the segmentation model.
-Extend the code for testing on additional images or integrating with deployment frameworks.
+## Graph Convolution Operation
+The purpose of GCN is to update the node represention through multiple layers by aggregating the information of the neighbors of every node through message passing to have final hidden features for every node. MG-Unet first builds an image’s graph structure by dividing it into 𝑁 patches, converting them into feature vectors as the same size of the number of channels, and then recognizing them as a set of nodes $𝑉 = {𝑣1, 𝑣2, , 𝑣𝑁 }$.
