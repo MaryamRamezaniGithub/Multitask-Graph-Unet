@@ -23,4 +23,35 @@ MG-Unet is a U-shape model with symmetrical architecture, whose architecture can
 ## Graph Convolution Operation
 The purpose of GCN is to update the node represention through multiple layers by aggregating the information of the neighbors of every node through message passing to have final hidden features for every node. MG-Unet first builds an image’s graph structure by dividing it into 𝑁 patches, converting them into feature vectors as the same size of the number of channels, and then recognizing them as a set of nodes
 $𝑉 = \{ 𝑣_1, 𝑣_2,... , 𝑣_𝑁 \}$.
-![1](https://github.com/user-attachments/assets/44d1e5fa-b294-447f-9ede-55386a5cfc1c)
+![1](https://github.com/user-attachments/assets/9c1e8e17-bf41-4d4a-9a1e-70301d350eb6)
+
+The intuition for construction the edges of the graph, is to learn a graph structure that reflects the similarities within the images, this similarity is mathematically defined as the inner-product
+between node vector features.
+![2](https://github.com/user-attachments/assets/407b46d3-e526-4f7c-81e2-dc4e59352eae)
+
+In this way, a graph representation 𝐺(𝑉, 𝜀) is constructed where 𝜀 is set of all edges. Then for input feature 𝑋, the aggregation operation calculates the representation of a node by aggregating features of neighboring nodes. Ifˆ𝐴= 𝐴 + 𝐼 is the matrix of all nodes’connections which normally called an adjacency matrix, and 𝐼 is identity matrix to add self loops, ˆ
+𝐷
+is node degree matrix where
+ˆ𝐷
+𝑖 =
+Í
+𝑗 ˆ
+𝐴
+𝑖 𝑗 , we can use the normalized graph Laplacian
+matrix ˆ
+𝐷
+−0.5 ˆ
+𝐴
+ˆ𝐷
+0.5 to approximate the graph convolution
+using Fourier transform properties. GCN follows the node
+representation update as:
+𝑋′ = 𝜎( ˆ
+𝐷
+−0.5 ˆ
+𝐴
+ˆ𝐷
+0.5 𝑋 𝜃)
+where 𝜎 is the non-linear activation function and 𝜃 is the
+learning parameters or the weights.
+
